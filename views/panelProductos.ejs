@@ -1,0 +1,93 @@
+<%- include layouts/adminheader.ejs %>
+<%- include layouts/adminsidebar.ejs %>
+
+
+
+<main class="app-content">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tile">
+              <section class="invoice">
+                <div class="row mb-4">
+                  <div class="col-8">
+                    <h2 class="page-header"><i class="fa fa-globe"></i> Productos</h2>
+                  </div>
+                </div>
+                <div class="col-12">
+
+                    <div class="row d-print-none mt 4" >
+                        <li class="app-search">
+                            <div class="col-4 text-right"><a class="btn btn-primary" href="/panelCreate"><i class="fa fa-globe"></i> Nuevo</a></div>
+                            <spa> | </spa>
+                            <input class=" search-query form-control" type="search" name="busqueda" id="busqueda" placeholder="Buscar">
+
+                            <a class="app-search__button" role="button" href="/filtrado"><i class="fa fa-search"></i></a>
+
+                            
+                          </li>
+
+                    
+                          
+                    </div>
+                  
+                  </div>
+
+                      <br />
+                <div class="row">
+                  <div class="col-12 table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Título</th>
+                          <th>Descripción</th>
+                          <th>Imagen</th>
+                          <th>Autor</th>
+                          <th>Tecnología</th>
+                          <th>Precio</th>
+                          <th>Existencia</th>
+                          <th>Vendidos</th>
+                          <th>Archivo</th>
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                            <% for (var i = 0; i < documentos.length; i++) { %>
+                                <tr>
+                                  <td><%= documentos[i].titulo %></td>
+                                  <td><%= documentos[i].descripcion %></td>
+                                  <td><img src="/imagesProductos/<%= documentos[i].imagen %>" alt="Imagen" height="100px" width="auto"></td>
+                                  <td><%= documentos[i].autor %></td>
+                                  <td><%= documentos[i].tecnologia %></td>
+                                  <td><%= documentos[i].precio %></td>
+                                  <td><%= documentos[i].existencia %></td>
+                                  <td><%= documentos[i].vendidos %></td>
+                                  <td><%= documentos[i].archivo %></td>
+                                  
+                                  <td class="text-right">
+                                    <a class="edit btn btn-sm btn-default" href="/panelEdit/<%= documentos[i]._id %>" onclick="lala()"target="_parent">
+                                         <i class="icon-note">Editar</i>
+                                    </a>
+
+                                    <a class="delete btn btn-sm btn-danger" href="/DELETE/<%= documentos[i]._id %>">
+                                        <i class="icons-office-52">Borrar</i>
+                                    </a>
+
+                                </td>
+                                </tr>
+                                <hidden name="idProd" value="<%= documentos[i]._id %>"></hidden>    
+                            <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+
+
+<%- include layouts/adminfooter.ejs %>
