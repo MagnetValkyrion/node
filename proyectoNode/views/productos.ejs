@@ -1,0 +1,168 @@
+<%- include layouts/header.ejs %>
+    <div id="all">
+
+        <div id="content">
+            <div class="container">
+
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="/">Inicio</a>
+                        </li>
+                        <li>Productos</li>
+                    </ul>
+                </div>
+
+
+
+                <div class="col-md-12">
+
+
+                    <!--<div class="box info-bar">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 products-showing">
+                                Showing <strong>12</strong> of <strong>25</strong> products
+                            </div>
+    
+                            <div class="col-sm-12 col-md-8  products-number-sort">
+                                <div class="row">
+                                    <form class="form-inline">
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="products-number">
+                                                <strong>Show</strong>  <a href="#" class="btn btn-default btn-sm btn-primary">12</a>  <a href="#" class="btn btn-default btn-sm">24</a>  <a href="#" class="btn btn-default btn-sm">All</a> products
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="products-sort-by">
+                                                <strong>Sort by</strong>
+                                                <select name="sort-by" class="form-control">
+                                                    <option>Price</option>
+                                                    <option>Name</option>
+                                                    <option>Sales first</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <div class="row products">
+                        <% for( var i = 0; i < documentos.length; i++) { %>
+                            <div class="col-md-4 col-sm-4">
+                                <div class="product">
+                                    <div class="flip-container">
+                                        <div class="flipper">
+                                            <div class="front">
+                                                <a href="detail.html">
+                                                    <img width="100%" src="imagesProductos/<%= documentos[i].imagen %>" alt="" class="img-responsive">
+                                                </a>
+                                            </div>
+                                            <div class="back">
+                                                <a href="detail.html">
+                                                    <img src="imagesProductos/<%= documentos[i].imagen %>" alt="" class="img-responsive">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="detail.html" class="invisible">
+                                        <img src="imagesProductos/<%= documentos[i].imagen %>" alt="" class="img-responsive">
+                                    </a>
+                                    <div class="text">
+                                        <h3>
+                                            <a href="detail.html">
+                                                <%= documentos[i].titulo %>
+                                            </a>
+                                        </h3>
+                                        <p class="price">
+                                            $<%= documentos[i].precio %>
+                                        </p>
+
+                                        <form action="https://sandbox.paypal.com/cgi-bin/webscr" method="post">
+        
+                                            <input type="hidden" name="cmd" value="_cart" >
+                                            <input type="hidden" name="business" value="ron170393-facilitator@gmail.com" >
+
+                                            <input type="hidden" name="add" value="1" />
+
+                                            <input type="hidden" name="item_name" value="<%= documentos[i].titulo %>" >
+                                            <input type="hidden" name="currency_code" value="MXN">
+                                            <input type="hidden" name="amount" value="<%= documentos[i].precio %>" >
+                                            <input type="hidden" name="return" value="http://localhost:3000/" >
+
+                                            <p class="buttons">
+                                        
+                                            
+                                            <!--<a href="#" class="btn btn-default producto" precio="<%= documentos[i].precio %>" titulo="<%= documentos[i].titulo %>" role="button"><i class="fa fa-shopping-cart" ></i>Agregar al carrito</a>-->
+                                            <a href="/add-to-cart/" class="btn btn-default producto" role="button"><i class="fa fa-shopping-cart" ></i>Agregar al carrito</a>
+
+                                            </p>
+
+
+                                        </form>
+
+                                        <!--<p class="buttons">
+                                            <a href="#" class="btn btn-default producto" precio="<%= documentos[i].precio %>" titulo="<%= documentos[i].titulo %>" role="button"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
+                                        </p>-->
+                                    </div>
+                                    <!-- /.text -->
+                                </div>
+                                <!-- /.product -->
+                            </div>
+
+
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <script src="/javascripts/minicart.js"></script>
+        <script>
+
+            //PAYPAL.apps.MiniCart.reset();
+                paypal.minicart.render({
+                    
+                    strings:{
+                        button:'Pagar',
+                        buttonAlt: "Total",
+                        subtotal: 'Total:',
+                        empty: 'No hay productos en el carrito'
+                    },
+                    
+                    action: 'https://sandbox.paypal.com/cgi-bin/webscr'
+                });
+
+                $('.producto').click(function(e){
+                    e.stopPropagation();
+                    paypal.minicart.cart.add({
+                        bussiness: 'ron170393@gmail.com',
+                        //receiver_email: 'ron170393@gmail.com',
+                        item_name: $(this).attr("titulo"),
+                        amount: $(this).attr("precio"),
+                        currency_code: 'MXN'
+                    });
+                });
+
+                paypal.minicart.cart.on('add', function (idx, product, isExisting) {
+			    if (isExisting) {
+				product.set('quantity', 1);
+				alert('Solo puedes agregar uno.');
+			}
+		});
+
+
+
+            </script>
+            
+
+
+        
+        
+<%- include layouts/footer.ejs %>
